@@ -1,0 +1,40 @@
+body {
+    font-family: "Courier New";
+    background: url("/mysite/static/photos/background.jpeg") center fixed #F0F8FF;
+    background-size: cover;
+}
+
+
+.container{
+    width: 100%;
+}
+
+.navbar {
+    width: 100%;
+    background-color: lavender;
+    opacity: 0.5;
+}
+
+.card-body {
+    background-color: lavender;
+    font-family: "Courier New";
+}
+
+#text {
+    opacity: 0.95;
+}
+
+.container-picture{
+    width: 100%;
+}
+
+.carousel-inner{
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+img.resize {
+  width: max-content;
+  height: max-content;
+}

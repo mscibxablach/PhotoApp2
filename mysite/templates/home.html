@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="card-title">Aplikacja do generowania analizy obrazów ultrasonograficznych</h2>
+    <p> Aplikacja pozwala na stworzenie formularza, który zawiera: </p>
+    <li> podstawowe dane pacjenta</li>
+    <li> krótki opis przeprowadzonego badania</li>
+    <li> zdjęcie z ultrasonografu</li>
+    <li> wyniki dla pacjenta</li>
+
+{% endblock %}
+
+
+{% block content2 %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-12">
+                <div class="card mb-4">
+                    <div class="center-container">
+                        <div class="card-body">
+                            <div class="container-picture">
+                                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img class="resize"
+                                                 src="https://images-prod.healthline.com/hlcmsresource/images/imce/ultrasound_thumb.jpg"
+                                                 alt="First slide">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img class="resize"
+                                                 src="https://images-na.ssl-images-amazon.com/images/S/videodirect-images/hero/ba55b2f0-22af-1a06-fff6-0ef5b7c461e9._SX1080_.png"
+                                                 alt="Second slide">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
