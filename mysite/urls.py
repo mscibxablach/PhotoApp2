@@ -10,9 +10,6 @@ urlpatterns = [
     path('', views.Home.as_view(), name='home'),
 
     # FOR PHOTOS
-    # int:pk - primary key of photo
-    path('photos/<int:pk>/', views.delete_photo, name='delete_photo'),
-
     path('admin/', admin.site.urls),
 
     # ONLY FOR CREATING PDF

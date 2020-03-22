@@ -25,7 +25,7 @@ SECRET_KEY = '3w5+j6wh0^w9pjv14egctmtb^(7cq#whl%q(_8t*_(q2y^5z@a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.93.41.64', 'localhost']
+ALLOWED_HOSTS = ['13.93.41.64', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     'mysite.core',
+
+    'phone_field',
+    'phonenumber_field',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -111,7 +114,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
 TIME_ZONE = 'UTC'
 
@@ -133,9 +137,21 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'mysite/static')
 ]
 
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+STATICFILES_DIRS = (
+  os.path.join(SITE_ROOT, 'static/'),
+)
+
 
 # zapisywanie plikow
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # pod tym url umieszczony jest plik
 MEDIA_URL = '/media/'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mscibxablach@gmail.com'
+EMAIL_HOST_PASSWORD = 'inzynierka'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
