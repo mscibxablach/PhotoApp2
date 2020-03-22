@@ -47,17 +47,15 @@ def send_email(mail, pdf):
         'Wynikia badnia ultrasonograficznego',
         'Badanie z dnia ' + date,
         'mscibxablach@gmail.com',
-        [mail],
+        [mail]
     )
-    email.attach_file(pdf)
+    email.attach('test.pdf', pdf, 'application/pdf')
     email.send(fail_silently=False)
 
 
-def save_pdf(request, name, surname, pesel, birth_date, phone, email, examination, description, photo):
+def save_pdf_to_response(pdf_result, filename):
     response = HttpResponse(content_type='application/pdf')
-    filename = name + "_" + surname + ".pdf"
     response['Content-Disposition'] = 'attachment; filename= "%s"' % filename
-    pdf_result = create_pdf(name, surname, pesel, birth_date, phone, email, examination, description, photo)
     response.write(pdf_result)
     return response
 
@@ -86,10 +84,10 @@ def upload_photo_without_DB(request):
         form = WithoutDBPhotoForm(request.POST, request.FILES)     # create a form instance and populate it with data from the request:
         if form.is_valid():
             result = photo_functions(form.cleaned_data['photo'])
-            pdf_saved = save_pdf(request, form.cleaned_data['name'], form.cleaned_data['surname'], form.cleaned_data['pesel'], form.cleaned_data['birth_date'], form.cleaned_data['phone'], form.cleaned_data['email'], form.cleaned_data['examination'], form.cleaned_data['description'], result)
+            pdf_saved = create_pdf(form.cleaned_data['name'], form.cleaned_data['surname'], form.cleaned_data['pesel'], form.cleaned_data['birth_date'], form.cleaned_data['phone'], form.cleaned_data['email'], form.cleaned_data['examination'], form.cleaned_data['description'], result)
             #TODO nie pobiera wygenerowanego pdfa tylko na sztywno wpisany. Ma pobierac wygenerowanego
-            send_email(form.cleaned_data['email'], '/Users/agatablachowiak/Desktop/AppWithPlotCutter/a_a.pdf')
-            return pdf_saved
+            send_email(form.cleaned_data['email'], pdf_saved)
+            return save_pdf(pdf_saved, 'test.pdf')
     else:
         form = WithoutDBPhotoForm()
     return render(request, 'upload_photo_without_DB.html', {

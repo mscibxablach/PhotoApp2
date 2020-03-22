@@ -69,15 +69,15 @@ class CustomPDF(FPDF):
         self.multi_cell(w=0, h=10, txt=description, border=1, align='J')
         self.ln(5)
 
-    def exam_pic(self,i):
+    def exam_pic(self, i):
         switcher = {
-            '1': "../PhotoApp2/mysite/generate_pdf/photos/Pi1.png",
-            '2': "../PhotoApp2/mysite/generate_pdf/photos/Pi2.png",
-            '3': "../PhotoApp2/mysite/generate_pdf/photos/Pi3.png",
-            '4': "../PhotoApp2/mysite/generate_pdf/photos/Pi4.png",
-            '5': "../PhotoApp2/mysite/generate_pdf/photos/S1.png",
-            '6': "../PhotoApp2/mysite/generate_pdf/photos/S2.png",
-            '7': "../PhotoApp2/mysite/generate_pdf/photos/S3.png",
+            '1': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi1.png",
+            '2': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi2.png",
+            '3': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi3.png",
+            '4': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi4.png",
+            '5': "../AppWithPlotCutter/mysite/generate_pdf/photos/S1.png",
+            '6': "../AppWithPlotCutter/mysite/generate_pdf/photos/S2.png",
+            '7': "../AppWithPlotCutter/mysite/generate_pdf/photos/S3.png",
         }
         return switcher.get(i, "Niepoprawny wybór")
 
