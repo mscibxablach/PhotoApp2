@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 import datetime
 
+from mysite.services.email_service import SendEmailService
 from .forms import WithoutDBPhotoForm
 
 from mysite.utils.image_utils import ImageUtils
@@ -85,9 +86,8 @@ def upload_photo_without_DB(request):
         if form.is_valid():
             result = photo_functions(form.cleaned_data['photo'])
             pdf_saved = create_pdf(form.cleaned_data['name'], form.cleaned_data['surname'], form.cleaned_data['pesel'], form.cleaned_data['birth_date'], form.cleaned_data['phone'], form.cleaned_data['email'], form.cleaned_data['examination'], form.cleaned_data['description'], result)
-            #TODO nie pobiera wygenerowanego pdfa tylko na sztywno wpisany. Ma pobierac wygenerowanego
             send_email(form.cleaned_data['email'], pdf_saved)
-            return save_pdf(pdf_saved, 'test.pdf')
+            return save_pdf_to_response(pdf_saved, form.cleaned_data['name'] + "_" + form.cleaned_data['surname'] + ".pdf")
     else:
         form = WithoutDBPhotoForm()
     return render(request, 'upload_photo_without_DB.html', {
