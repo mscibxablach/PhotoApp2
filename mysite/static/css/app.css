@@ -1,6 +1,6 @@
 body {
     font-family: "Courier New";
-    background: url("/mysite/static/photos/background.jpeg") center fixed #F0F8FF;
+    background: url("../photos/background.jpeg") center fixed #F0F8FF;
     background-size: cover;
 }
 
