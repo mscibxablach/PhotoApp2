@@ -3,17 +3,18 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from mysite.core import views
+from mysite.views.home_view import Home
+from mysite.views.generate_pdf_view import GeneratePDFForm
 
 
 urlpatterns = [
-    path('', views.Home.as_view(), name='home'),
+    path('', Home.as_view(), name='home'),
 
     # FOR PHOTOS
     path('admin/', admin.site.urls),
 
     # ONLY FOR CREATING PDF
-    path('upload_photo_without_DB/', views.upload_photo_without_DB, name='upload_photo_without_DB'),
+    path('upload_photo_without_DB/',    GeneratePDFForm.as_view(), name='upload_photo_without_DB'),
 ]
 
 # tylko do developmentu

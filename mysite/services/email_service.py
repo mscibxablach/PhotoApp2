@@ -1,9 +1,8 @@
 import datetime
-from email.message import EmailMessage
+from django.core.mail import EmailMessage
 
 
 class SendEmailService:
-
     def send_email(self, mail, pdf):
         date = datetime.date.today().__str__()
         email = EmailMessage(

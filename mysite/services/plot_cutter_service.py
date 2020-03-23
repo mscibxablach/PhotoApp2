@@ -5,9 +5,9 @@ class PlotCutterService:
     def __init__(self, plot_cutter):
         self.plot_cutter = plot_cutter
 
-    def get_plot(self, image_path):
+    def get_plot(self, image):
 
-        image = PlotCutter.cut_plot(image_path)
+        result = self.plot_cutter.cut_plot_from_memory(image)
 
-        return image
+        return result
 

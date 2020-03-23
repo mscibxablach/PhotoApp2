@@ -18,7 +18,7 @@ class PlotCutter:
 
             cv2.imwrite(output_path, plot_to_cut)
 
-    def cut_plot(self, image):
+    def cut_plot_from_memory(self, image):
         plot_coordinates = self.plot_recognizer.get_plot_coordinates(image)
         if len(plot_coordinates) > 0:
             plot_to_cut = image[
