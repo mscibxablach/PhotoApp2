@@ -56,28 +56,31 @@ class CustomPDF(FPDF):
         self.cell(0, 10, txt="Data urodzenia:" + " " + birth_date, ln=1)
         self.cell(0, 10, txt="Numer telefonu:" + " " + phone, ln=1)
         self.cell(0, 10, txt="E-mail:" + " " + email, ln=1)
-        self.ln(10)
+        self.ln(5)
 
-    def description_of_examination(self, examination, description):
-        self.set_font("Times", 'B', size=12)
-        self.cell(0, 10, txt="Rozpoznanie:", ln=1)
-        self.set_font("Times", size=12)
-        self.multi_cell(w=0, h=10, txt=examination, border=1, align='J')
+    def description_of_examination(self, description):
         self.set_font("Times", 'B', size=12)
         self.cell(0, 10, txt="Opis badania:", ln=1)
         self.set_font("Times", size=12)
         self.multi_cell(w=0, h=10, txt=description, border=1, align='J')
-        self.ln(5)
+        self.ln(10)
+
+    def description_of_diagnosis(self, examination):
+        self.ln(45)
+        self.set_font("Times", 'B', size=12)
+        self.cell(0, 10, txt="Rozpoznanie:", ln=1)
+        self.set_font("Times", size=12)
+        self.multi_cell(w=0, h=10, txt=examination, border=1, align='J')
+        self.ln(10)
 
     def exam_pic(self,i):
         switcher = {
-            '1': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi1.png",
-            '2': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi2.png",
-            '3': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi3.png",
-            '4': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi4.png",
-            '5': "../AppWithPlotCutter/mysite/generate_pdf/photos/S1.png",
-            '6': "../AppWithPlotCutter/mysite/generate_pdf/photos/S2.png",
-            '7': "../AppWithPlotCutter/mysite/generate_pdf/photos/S3.png",
+            '1': "../PhotoApp2/mysite/generate_pdf/photos/Pi1.png",
+            '2': "../PhotoApp2/mysite/generate_pdf/photos/Pi2.png",
+            '3': "../PhotoApp2/mysite/generate_pdf/photos/Pi3.png",
+            '4': "../PhotoApp2/mysite/generate_pdf/photos/Pi4.png",
+            '5': "../PhotoApp2/mysite/generate_pdf/photos/S1.png",
+            '6': "../PhotoApp2/mysite/generate_pdf/photos/S2.png",
+            '7': "../PhotoApp2/mysite/generate_pdf/photos/S3.png",
         }
         return switcher.get(i, "Niepoprawny wybór")
-

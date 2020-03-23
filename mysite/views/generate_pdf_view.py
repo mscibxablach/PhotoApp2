@@ -67,14 +67,13 @@ class GeneratePDFForm(View):
         pdf.add_page()
         pdf.set_font('Times', '', 12)
         pdf.form(name, surname, pesel, birth_date, phone, email)
+        pdf.description_of_examination(description)
+        pdf.description_of_diagnosis(examination)
 
         # TODO moze poprawic te obrazki
-        pdf.image(pdf.exam_pic(examination), x=120, y=35, w=60, h=75)
-
-        pdf.description_of_examination(examination, description)
-        pdf.image("pdf.png", w=120, h=55, type='', link=None, file=photo)
+        pdf.image(pdf.exam_pic(examination), x=140, y=195, w=60, h=75)
+        pdf.image("pdf.png", y=195, w=120, h=55, type='', link=None, file=photo)
         pdf_result = pdf.output(filename, dest='S')
-
         return pdf_result
 
 
@@ -83,5 +82,3 @@ class GeneratePDFForm(View):
         response['Content-Disposition'] = 'attachment; filename= "%s"' % filename
         response.write(pdf_result)
         return response
-
-
