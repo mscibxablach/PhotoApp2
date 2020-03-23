@@ -33,12 +33,12 @@ def create_pdf(name, surname, pesel, birth_date, phone, email, examination, desc
     pdf.add_page()
     pdf.set_font('Times', '', 12)
     pdf.form(name, surname, pesel, birth_date, phone, email)
+    pdf.description_of_examination(description)
+    pdf.description_of_diagnosis(examination)
 
     # TODO moze poprawic te obrazki
-    pdf.image(pdf.exam_pic(examination), x=120, y=35, w=60, h=75)
-
-    pdf.description_of_examination(examination, description)
-    pdf.image("pdf.png", w=120, h=55, type='', link=None, file=photo)
+    pdf.image(pdf.exam_pic(examination), x=140, y=195, w=60, h=75)
+    pdf.image("pdf.png", y=195, w=120, h=55, type='', link=None, file=photo)
     pdf_result = pdf.output(filename, dest='S')
     return pdf_result
 
@@ -86,6 +86,7 @@ def upload_photo_without_DB(request):
         if form.is_valid():
             result = photo_functions(form.cleaned_data['photo'])
             pdf_saved = create_pdf(form.cleaned_data['name'], form.cleaned_data['surname'], form.cleaned_data['pesel'], form.cleaned_data['birth_date'], form.cleaned_data['phone'], form.cleaned_data['email'], form.cleaned_data['examination'], form.cleaned_data['description'], result)
+            #pdf_saved = create_pdf('Agata', 'Blachowiak', '96070603524', '06.07.1996', '669 738 430', 'agata.blachowiak@gmail.com', 'Żyła odpiszczelowa - I st.', 'lol', '/Users/agatablachowiak/PhotoApp2/media/photos/201911121102040004.JPG')
             send_email(form.cleaned_data['email'], pdf_saved)
             return save_pdf_to_response(pdf_saved, form.cleaned_data['name'] + "_" + form.cleaned_data['surname'] + ".pdf")
     else:
