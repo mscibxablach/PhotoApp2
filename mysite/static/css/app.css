@@ -16,6 +16,7 @@ body {
 }
 
 .card-body {
+    position: relative;
     background-color: lavender;
     font-family: "Courier New";
 }
