@@ -14,7 +14,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # ONLY FOR CREATING PDF
-    path('upload_photo_without_DB/',    GeneratePDFForm.as_view(), name='upload_photo_without_DB'),
+    path('upload_photo_without_DB/', GeneratePDFForm.as_view(), name='upload_photo_without_DB'),
 ]
 
 # tylko do developmentu

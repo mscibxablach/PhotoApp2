@@ -3,7 +3,7 @@ from django.core.mail import EmailMessage
 
 
 class SendEmailService:
-    def send_email(self, mail, pdf):
+    def send_email(self, mail, pdf, filename):
         date = datetime.date.today().__str__()
         email = EmailMessage(
             'Wynikia badnia ultrasonograficznego',
@@ -11,5 +11,5 @@ class SendEmailService:
             'mscibxablach@gmail.com',
             [mail]
         )
-        email.attach('test.pdf', pdf, 'application/pdf')
+        email.attach(filename, pdf, 'application/pdf')
         email.send(fail_silently=False)

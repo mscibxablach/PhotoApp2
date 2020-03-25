@@ -41,7 +41,7 @@ class CustomPDF(FPDF):
         self.set_font('Times', 'I', 8)
 
         self.set_draw_color(230, 230, 250)
-        self.line(10, 285, 200, 285)
+        self.line(10, 287, 200, 287)
 
 
         # Add a page number
@@ -52,7 +52,7 @@ class CustomPDF(FPDF):
         self.set_font("Times", size=12)
         self.cell(0, 10, txt="Imie: " + " " + name, ln=1)
         self.cell(0, 10, txt="Nazwisko:" + " " + surname, ln=1)
-        self.cell(0, 10, txt="Pesel:" + " " + pesel, ln=1)
+        self.cell(0, 10, txt="Pesel:" + " " + pesel , ln=1)
         self.cell(0, 10, txt="Data urodzenia:" + " " + birth_date, ln=1)
         self.cell(0, 10, txt="Numer telefonu:" + " " + phone, ln=1)
         self.cell(0, 10, txt="E-mail:" + " " + email, ln=1)
@@ -62,16 +62,14 @@ class CustomPDF(FPDF):
         self.set_font("Times", 'B', size=12)
         self.cell(0, 10, txt="Opis badania:", ln=1)
         self.set_font("Times", size=12)
-        self.multi_cell(w=0, h=10, txt=description, border=1, align='J')
-        self.ln(10)
+        self.multi_cell(w=0, h=10, txt=description, border=1, align='J', ln=1)
 
     def description_of_diagnosis(self, examination):
-        self.ln(45)
         self.set_font("Times", 'B', size=12)
         self.cell(0, 10, txt="Rozpoznanie:", ln=1)
         self.set_font("Times", size=12)
-        self.multi_cell(w=0, h=10, txt=examination, border=1, align='J')
-        self.ln(10)
+        self.multi_cell(w=0, h=10, txt=examination, border=1, align='J', ln=1)
+        # self.ln(10)
 
     def exam_pic(self,i):
         switcher = {
@@ -84,3 +82,13 @@ class CustomPDF(FPDF):
             '7': "../PhotoApp2/mysite/generate_pdf/photos/S3.png",
         }
         return switcher.get(i, "Niepoprawny wybór")
+
+    def ratio_scale(self, ratio):
+        a = 0.6
+        b = 2
+        if ratio < a:
+            return "brak refluksu."
+        elif ratio > a and ratio < b:
+            return "refluks niepewny/sredni."
+        else:
+            return "refluks mocny."

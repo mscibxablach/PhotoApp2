@@ -4,6 +4,8 @@ from django.views import View
 from django.http import HttpResponse, HttpResponseNotFound
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 import datetime
+
+from mysite.generate_pdf.generate_axis import GenerateAxis
 from mysite.services.email_service import SendEmailService
 from mysite.core.forms import WithoutDBPhotoForm
 
@@ -50,32 +52,40 @@ class GeneratePDFForm(View):
             pdf_saved = self.create_pdf(form.cleaned_data['name'], form.cleaned_data['surname'], form.cleaned_data['pesel'],
                                    form.cleaned_data['birth_date'], form.cleaned_data['phone'],
                                    form.cleaned_data['email'], form.cleaned_data['examination'],
-                                   form.cleaned_data['description'], result_photo)
+                                   form.cleaned_data['description'], result_photo, str(ratio), int(ratio))
 
-            self.email_service.send_email(form.cleaned_data['email'], pdf_saved)
+            filename = form.cleaned_data['name'] + "_" + form.cleaned_data['surname'] + ".pdf"
+            self.email_service.send_email(form.cleaned_data['email'], pdf_saved, filename)
 
             return self.save_pdf_to_response(pdf_saved,
                                         form.cleaned_data['name'] + "_" + form.cleaned_data['surname'] + ".pdf")
 
         return render(request, self.template_name, {'form': form})
 
-    def create_pdf(self, name, surname, pesel, birth_date, phone, email, examination, description, photo):
+    def create_pdf(self, name, surname, pesel, birth_date, phone, email, examination, description, photo, ratio_string, ratio_int):
         filename = name + "_" + surname + ".pdf"
         pdf = CustomPDF()
+        axis = GenerateAxis()
+        created_axis = axis.create_axis(int(ratio_int))
         pdf.set_margins(left=12, top=20)
         pdf.alias_nb_pages()
         pdf.add_page()
         pdf.set_font('Times', '', 12)
+
         pdf.form(name, surname, pesel, birth_date, phone, email)
         pdf.description_of_examination(description)
         pdf.description_of_diagnosis(examination)
 
-        # TODO moze poprawic te obrazki
-        pdf.image(pdf.exam_pic(examination), x=140, y=195, w=60, h=75)
-        pdf.image("pdf.png", y=195, w=120, h=55, type='', link=None, file=photo)
+        type_of_reflux_name = pdf.ratio_scale(ratio_int)
+        diagnosis_string = "Stosunek krwi splywajacej w stosunku do krwi plynacej w strone serca wynosi: " + ratio_string[0:5] + ", co oznacza " + type_of_reflux_name
+        pdf.multi_cell(0, 10, txt=diagnosis_string, align='J', ln=1)
+
+        pdf.image("plot.png", y=pdf.get_y(), x=10, w=90, h=40, link=None, file=created_axis)
+        pdf.image(pdf.exam_pic(examination), x=140, y=pdf.get_y()+28, w=60, h=75)
+        pdf.image("pdf.png", y=pdf.get_y()+45, w=120, h=55, link=None, file=photo)
+
         pdf_result = pdf.output(filename, dest='S')
         return pdf_result
-
 
     def save_pdf_to_response(self, pdf_result, filename):
         response = HttpResponse(content_type='application/pdf')
