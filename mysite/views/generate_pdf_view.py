@@ -48,19 +48,22 @@ class GeneratePDFForm(View):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             photo_bytes = form.cleaned_data['photo'].read()
-            result_photo, top, bottom, ratio = self.photo_service.process_image(photo_bytes)
+            try:
+                result_photo, top, bottom, ratio = self.photo_service.process_image(photo_bytes)
 
-            examination = Examination.get_examination(form.cleaned_data['examination'])
-            pdf_saved = self.create_pdf(form.cleaned_data['name'], form.cleaned_data['surname'], form.cleaned_data['pesel'],
+                examination = Examination.get_examination(form.cleaned_data['examination'])
+                pdf_saved = self.create_pdf(form.cleaned_data['name'], form.cleaned_data['surname'], form.cleaned_data['pesel'],
                                    form.cleaned_data['birth_date'], form.cleaned_data['phone'],
                                    form.cleaned_data['email'], examination,
                                    form.cleaned_data['description'], result_photo, str(ratio), int(ratio))
 
-            filename = form.cleaned_data['name'] + "_" + form.cleaned_data['surname'] + ".pdf"
-            self.email_service.send_email(form.cleaned_data['email'], pdf_saved, filename)
+                filename = form.cleaned_data['name'] + "_" + form.cleaned_data['surname'] + ".pdf"
+                self.email_service.send_email(form.cleaned_data['email'], pdf_saved, filename)
 
-            return self.save_pdf_to_response(pdf_saved,
+                return self.save_pdf_to_response(pdf_saved,
                                         form.cleaned_data['name'] + "_" + form.cleaned_data['surname'] + ".pdf")
+            except Exception as e:
+                return render(request, 'error.html', status=400)
 
         return render(request, self.template_name, {'form': form})
 
