@@ -1,17 +1,18 @@
 from django import forms
 import re
 from dobwidget import DateOfBirthWidget
+from mysite.generate_pdf.Examination import Examination
 
-# TODO ma zwracać w pdf te nazwę z nie numerek
-VEINS = (
-    ("1", "Żyła odpiszczelowa - I st."),
-    ("2", "Żyła odpiszczelowa - II st."),
-    ("3", "Żyła odpiszczelowa - III st."),
-    ("4", "Żyła odpiszczelowa - IV st."),
-    ("5", "Żyła odstrzałkowa - I st."),
-    ("6", "Żyła odstrzałkowa - II st."),
-    ("7", "Żyła odstrzałkowa - III st."),
-)
+# # TODO ma zwracać w pdf te nazwę z nie numerek
+# VEINS = [
+#     ("1", "Żyła odpiszczelowa - I st."),
+#     ("2", "Żyła odpiszczelowa - II st."),
+#     ("3", "Żyła odpiszczelowa - III st."),
+#     ("4", "Żyła odpiszczelowa - IV st."),
+#     ("5", "Żyła odstrzałkowa - I st."),
+#     ("6", "Żyła odstrzałkowa - II st."),
+#     ("7", "Żyła odstrzałkowa - III st."),
+# ]
 
 
 def check_size(value):
@@ -63,6 +64,6 @@ class WithoutDBPhotoForm(forms.Form):
     birth_date = forms.CharField(label='Data urodzenia', widget=DateOfBirthWidget(order='DMY'), required=True)
     phone = forms.CharField(label='Numer telefonu', max_length=16, validators=[check_phone], required=True)
     email = forms.EmailField(label='E-mail', max_length=100, required=True)
-    examination = forms.ChoiceField(label="Rozpoznanie", choices=VEINS, required=True)
+    examination = forms.ChoiceField(label="Rozpoznanie", choices=Examination.get_examinations(), required=True)
     description = forms.CharField(label='Opis', max_length=520, widget=forms.Textarea, required=False)
     photo = forms.FileField(label='Zdjęcie', required=True)

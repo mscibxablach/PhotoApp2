@@ -18,6 +18,7 @@ from mysite.plot_bound_detector.PlotBoundDetector import PlotBoundDetector
 from mysite.services.plot_cutter_service import PlotCutterService
 from mysite.generate_pdf.generate_pdf import CustomPDF
 from mysite.services.photo_service import PhotoService
+from mysite.generate_pdf.Examination import Examination
 
 # TODO dodac polska czcionke
 
@@ -49,9 +50,10 @@ class GeneratePDFForm(View):
             photo_bytes = form.cleaned_data['photo'].read()
             result_photo, top, bottom, ratio = self.photo_service.process_image(photo_bytes)
 
+            examination = Examination.get_examination(form.cleaned_data['examination'])
             pdf_saved = self.create_pdf(form.cleaned_data['name'], form.cleaned_data['surname'], form.cleaned_data['pesel'],
                                    form.cleaned_data['birth_date'], form.cleaned_data['phone'],
-                                   form.cleaned_data['email'], form.cleaned_data['examination'],
+                                   form.cleaned_data['email'], examination,
                                    form.cleaned_data['description'], result_photo, str(ratio), int(ratio))
 
             filename = form.cleaned_data['name'] + "_" + form.cleaned_data['surname'] + ".pdf"
@@ -74,14 +76,14 @@ class GeneratePDFForm(View):
 
         pdf.form(name, surname, pesel, birth_date, phone, email)
         pdf.description_of_examination(description)
-        pdf.description_of_diagnosis(examination)
+        pdf.description_of_diagnosis(examination[1])
 
         type_of_reflux_name = pdf.ratio_scale(ratio_int)
         diagnosis_string = "Stosunek krwi splywajacej w stosunku do krwi plynacej w strone serca wynosi: " + ratio_string[0:5] + ", co oznacza " + type_of_reflux_name
         pdf.multi_cell(0, 10, txt=diagnosis_string, align='J', ln=1)
 
         pdf.image("plot.png", y=pdf.get_y(), x=10, w=90, h=40, link=None, file=created_axis)
-        pdf.image(pdf.exam_pic(examination), x=140, y=pdf.get_y()+28, w=60, h=75)
+        pdf.image(pdf.exam_pic(examination[0]), x=140, y=pdf.get_y()+28, w=60, h=75)
         pdf.image("pdf.png", y=pdf.get_y()+45, w=120, h=55, link=None, file=photo)
 
         pdf_result = pdf.output(filename, dest='S')
