@@ -74,22 +74,22 @@ class CustomPDF(FPDF):
 
     def exam_pic(self,i):
         switcher = {
-            '1': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi1.png",
-            '2': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi2.png",
-            '3': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi3.png",
-            '4': "../AppWithPlotCutter/mysite/generate_pdf/photos/Pi4.png",
-            '5': "../AppWithPlotCutter/mysite/generate_pdf/photos/S1.png",
-            '6': "../AppWithPlotCutter/mysite/generate_pdf/photos/S2.png",
-            '7': "../AppWithPlotCutter/mysite/generate_pdf/photos/S3.png",
+            '1': "../PhotoApp2/mysite/generate_pdf/photos/Pi1.png",
+            '2': "../PhotoApp2/mysite/generate_pdf/photos/Pi2.png",
+            '3': "../PhotoApp2/mysite/generate_pdf/photos/Pi3.png",
+            '4': "../PhotoApp2/mysite/generate_pdf/photos/Pi4.png",
+            '5': "../PhotoApp2/mysite/generate_pdf/photos/S1.png",
+            '6': "../PhotoApp2/mysite/generate_pdf/photos/S2.png",
+            '7': "../PhotoApp2/mysite/generate_pdf/photos/S3.png",
         }
         return switcher.get(i, "Niepoprawny wybór")
 
     def ratio_scale(self, ratio):
         a = 0.6
         b = 2
-        if ratio < a:
+        if ratio <= a:
             return "brak refluksu."
-        elif ratio > a and ratio < b:
-            return "refluks niepewny/sredni."
+        elif ratio > a and ratio <= b:
+            return "refluks niepewny/średni."
         else:
             return "refluks mocny."

@@ -1,15 +1,12 @@
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, CreateView
+from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse, HttpResponseNotFound
-from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
+from django.http import HttpResponse
 import datetime
 
 from mysite.generate_pdf.generate_axis import GenerateAxis
 from mysite.services.email_service import SendEmailService
 from mysite.core.forms import WithoutDBPhotoForm
 
-from mysite.utils.image_utils import ImageUtils
 from mysite.plot_cutter.plot_recognizer import PlotRecognizer
 from mysite.plot_cutter.plot_cutter import PlotCutter
 from mysite.services.plot_bound_service import PlotBoundService
@@ -82,7 +79,7 @@ class GeneratePDFForm(View):
         pdf.description_of_diagnosis(examination[1])
 
         type_of_reflux_name = pdf.ratio_scale(ratio_int)
-        diagnosis_string = "Stosunek krwi splywajacej w stosunku do krwi plynacej w strone serca wynosi: " + ratio_string[0:5] + ", co oznacza " + type_of_reflux_name
+        diagnosis_string = "Stosunek krwi spływającej w stosunku do krwi płynącej w stronę serca wynosi: " + ratio_string[0:5] + ", co oznacza " + type_of_reflux_name
         pdf.multi_cell(0, 10, txt=diagnosis_string, align='J', ln=1)
 
         pdf.image("plot.png", y=pdf.get_y(), x=10, w=90, h=40, link=None, file=created_axis)
